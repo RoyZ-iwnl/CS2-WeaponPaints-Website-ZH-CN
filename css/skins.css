@@ -37,7 +37,7 @@ footer .info {
     align-items: center;
     gap: 20px;
     height: 100%;
-    padding-block: 20px;
+    padding: 20px 0;
     color: white;
     background: none;
     text-decoration: none;
@@ -62,7 +62,7 @@ footer a svg {
     position: fixed;
     width: 100%;
     left: 0;
-    padding-block: 30px;
+    padding: 30px 0;
     z-index: 10;
     box-shadow: 0 0 50px var(--main-color);
     background: rgba(255, 255, 255, 0.6);
@@ -89,7 +89,7 @@ footer a svg {
     fill: white;
     border-radius: 5px;
     cursor: pointer;
-    background: color-mix(in srgb, gray, var(--main-color));
+    background: var(--card-color, color-mix(in srgb, gray, var(--main-color)));
     outline: 2px dashed transparent;
     outline-offset: 5px;
     transition: .3s;
@@ -104,7 +104,7 @@ footer a svg {
 }
 .categories button svg {
     height: 30px;
-    rotate: 10deg;
+    transform: rotate(10deg);
     pointer-events: none;
 }
 .categories button span {
@@ -132,8 +132,7 @@ footer a svg {
     aspect-ratio: 1/1;
     bottom: 100%;
     left: 50%;
-    translate: -50% 50%;
-    rotate: 45deg;
+    transform: rotate(45deg) translate(-50% 50%);
     background: inherit;
 }
 .categories h2 {
@@ -300,15 +299,13 @@ footer a svg {
     align-items: center;
     padding: 20px 10px;
     border-radius: 10px;
-    background: none;
     border: none;
-    outline: none;
     color: white;
     font-size: 15px;
     width: 180px;
     height: 250px;
     cursor: pointer;
-    background: color-mix(in srgb, gray, var(--main-color));
+    background: var(--card-color, color-mix(in srgb, gray, var(--main-color)));
     outline: 2px dashed transparent;
     outline-offset: 10px;
     transition: .3s;
@@ -350,7 +347,7 @@ footer a svg {
 }
 
 .selected {
-    background: color-mix(in srgb, var(--main-color), black 20%) !important;
+    background: var(--card-selected, color-mix(in srgb, var(--main-color), black 20%)) !important;
 }
 .selected:hover,
 .selected:focus-visible {
@@ -390,7 +387,7 @@ footer a svg {
     height: 100%;
     left: 50%;
     top: 0;
-    translate: -50% 0;
+    transform: translate(-50%, 0);
     backdrop-filter: blur(10px);
     z-index: 10;
     opacity: 0;
