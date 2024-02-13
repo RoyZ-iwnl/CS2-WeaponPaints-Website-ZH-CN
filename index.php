@@ -15,7 +15,7 @@
     <link rel="shortcut icon" href="src/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/login.css">
-    <title><?= $translations->website_name; ?> - login</title>
+    <title><?= $translations->website_name; ?> - 请先登录</title>
 </head>
 <body <?= $bodyStyle ?>>
     
