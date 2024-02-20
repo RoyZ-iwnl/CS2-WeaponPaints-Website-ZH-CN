@@ -6,7 +6,7 @@ $Website_Translate = 'en';
 
 // If you store your website on a subfolder domain,
 // Leave empty if using the domain as normal.
-// Example: skins.cs2.lielxd.com/cs2/ | then we need here cs2 ↓
+// Example: cs2.lielxd.com/cs2/ | then we need here cs2 ↓
 $Website_Subfolder = '';
 
 // Place here your domain if steam authorize not working properly,

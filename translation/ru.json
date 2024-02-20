@@ -27,7 +27,7 @@
             "machine_guns": "Пулеметы",
             "sniper_rifles": "Снайперские винтовки",
             "shotguns": "Ружья",
-            "selected_category": "Эта категория уже выбрана!"
+            "gloves": "Перчатки"
         },
         "selected_weapon": {
             "weapon_selected_label": "Выбранное оружие",

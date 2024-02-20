@@ -27,7 +27,7 @@
             "machine_guns": "机枪",
             "sniper_rifles": "狙击步枪",
             "shotguns": "霰弹枪",
-            "selected_category": "当前分类已被选择！"
+            "gloves": "手套"
         },
         "selected_weapon": {
             "weapon_selected_label": "已选择的武器",

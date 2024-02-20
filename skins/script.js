@@ -60,7 +60,9 @@ document.addEventListener('click', function(e) {
             break;
         case 'category':
             if(e.target.classList.contains('selected')) {
-                alert(e.target.getAttribute('data-text') || 'This category is already selected!');
+                SendFormPost([
+                    ['category', 'none']
+                ]);
                 return;
             }
 
@@ -118,7 +120,7 @@ function SendFormPost(data) {
 
 window.onload = function() {
     let card = document.querySelector('.card');
-    if(getComputedStyle(card).backgroundColor == 'rgba(0, 0, 0, 0)') {
+    if(card && getComputedStyle(card).backgroundColor == 'rgba(0, 0, 0, 0)') {
         document.body.style.setProperty('--card-color', 'var(--main-color)');
     }
 

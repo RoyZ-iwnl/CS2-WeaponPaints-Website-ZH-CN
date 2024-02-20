@@ -27,7 +27,7 @@
             "machine_guns": "Machine Guns",
             "sniper_rifles": "Sniper Rifles",
             "shotguns": "Shotguns",
-            "selected_category": "Esta categoria já está selecionada!"
+            "gloves": "Luvas"
         },
         "selected_weapon": {
             "weapon_selected_label": "Arma selecionada",

@@ -12,7 +12,7 @@
     "login": {
         "header": "Counter Strike 2 Server - Entra agora:",
         "title": "CS2.LIELXD.COM",
-        "title_link": "steam://connect/0.0.0.0:27015?appid=730",
+        "title_link": "steam://connect/34.165.48.66:27015?appid=730",
         "title_hover": "Entrar no servidor",
         "footer": "Por favor, autentique-se com a Steam para continuar.",
         "button": "Login com Steam"
@@ -27,7 +27,7 @@
             "machine_guns": "Machine Guns",
             "sniper_rifles": "Sniper rifles",
             "shotguns": "Shotguns",
-            "selected_category": "Essa categoria já está selecionada!"
+            "gloves": "Luvas"
         },
         "selected_weapon": {
             "weapon_selected_label": "Arma escolhida",
