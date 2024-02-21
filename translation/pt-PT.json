@@ -31,7 +31,7 @@
         },
         "selected_weapon": {
             "weapon_selected_label": "Arma escolhida",
-            "choose_weapon_button": "Escolher arma",
+            "choose_weapon_button": "Escolha uma arma diferente",
             "wear": {
                 "label": "Desgaste",
                 "factory_new": "Factory New",

@@ -31,7 +31,7 @@
         },
         "selected_weapon": {
             "weapon_selected_label": "Selected weapon",
-            "choose_weapon_button": "Choose weapon",
+            "choose_weapon_button": "Choose different weapon",
             "wear": {
                 "label": "Wear",
                 "factory_new": "Factory New",

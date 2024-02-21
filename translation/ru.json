@@ -31,7 +31,7 @@
         },
         "selected_weapon": {
             "weapon_selected_label": "Выбранное оружие",
-            "choose_weapon_button": "Выберите оружие",
+            "choose_weapon_button": "Выбрать другое оружие",
             "wear": {
                 "label": "Wear",
                 "factory_new": "Factory New",

@@ -113,53 +113,39 @@
     }
 
     if(isset($_POST['defindex']) && isset($_POST['paint']) && isset($_POST['wear']) && isset($_POST['seed']) && isset($_POST['weapon_name'])) {
-        if(GetWeaponType($_POST['weapon_name']) == 'gloves') {
-            if($_POST['weapon_name'] == 'gloves_default') {
-                $state = $pdo->prepare('DELETE FROM `wp_player_gloves` WHERE `steamid` = ?');
-                $state->execute([$_SESSION['steamid']]);
-    
-                header("Refresh:0");
-                exit;
-            }
-    
-            $state = $pdo->prepare('SELECT * FROM `wp_player_gloves` WHERE `steamid` = ?');
+        if($_POST['weapon_name'] == 'weapon_knife_default') {
+            $state = $pdo->prepare('DELETE FROM `wp_player_knife` WHERE `steamid` = ?');
             $state->execute([$_SESSION['steamid']]);
 
-            $player_skin = $state->fetch();
-            if(empty($player_skin)) {
-                $state = $pdo->prepare('INSERT INTO `wp_player_gloves`(`steamid`, `weapon_defindex`, `paint`) VALUES(?, ?, ?)');
-                $state->execute([$_SESSION['steamid'], $_POST['defindex'], $_POST['paint']]);
-            }else {
-                $state = $pdo->prepare('UPDATE `wp_player_gloves` SET `weapon_defindex` = ?, `paint` = ? WHERE `steamid` = ?');
-                $state->execute([$_POST['defindex'], $_POST['paint'], $_SESSION['steamid']]);
-            }
+            header("Refresh:0");
+            exit;
+        }else if($_POST['weapon_name'] == 'gloves_default') {
+            $state = $pdo->prepare('DELETE FROM `wp_player_gloves` WHERE `steamid` = ?');
+            $state->execute([$_SESSION['steamid']]);
+
+            header("Refresh:0");
+            exit;
+        }
+
+        $state = $pdo->prepare('SELECT * FROM `wp_player_skins` WHERE `steamid` = ? AND `weapon_defindex` = ?');
+        $state->execute([$_SESSION['steamid'], $_POST['defindex']]);
+
+        $player_skin = $state->fetch();
+        if(empty($player_skin)) {
+            $state = $pdo->prepare('INSERT INTO `wp_player_skins`(`steamid`, `weapon_defindex`, `weapon_paint_id`, `weapon_wear`, `weapon_seed`) VALUES(?, ?, ?, ?, ?)');
+            $state->execute([$_SESSION['steamid'], $_POST['defindex'], $_POST['paint'], $_POST['wear'], $_POST['seed']]);
         }else {
-            if($_POST['weapon_name'] == 'weapon_knife_default') {
-                $state = $pdo->prepare('DELETE FROM `wp_player_knife` WHERE `steamid` = ?');
-                $state->execute([$_SESSION['steamid']]);
-    
-                header("Refresh:0");
-                exit;
-            }
-    
-            $state = $pdo->prepare('SELECT * FROM `wp_player_skins` WHERE `steamid` = ? AND `weapon_defindex` = ?');
-            $state->execute([$_SESSION['steamid'], $_POST['defindex']]);
-    
-            $player_skin = $state->fetch();
-            if(empty($player_skin)) {
-                $state = $pdo->prepare('INSERT INTO `wp_player_skins`(`steamid`, `weapon_defindex`, `weapon_paint_id`, `weapon_wear`, `weapon_seed`) VALUES(?, ?, ?, ?, ?)');
-                $state->execute([$_SESSION['steamid'], $_POST['defindex'], $_POST['paint'], $_POST['wear'], $_POST['seed']]);
-            }else {
-                $state = $pdo->prepare('UPDATE `wp_player_skins` SET `weapon_defindex`= ?, `weapon_paint_id` = ?, `weapon_wear` = ?, `weapon_seed` = ? WHERE `steamid` = ? AND `weapon_defindex`= ?');
-                $state->execute([$_POST['defindex'], $_POST['paint'], $_POST['wear'], $_POST['seed'],$_SESSION['steamid'], $_POST['defindex']]);
-            }
-    
-            if(strpos($_POST['weapon_name'], 'knife') !== false || $_POST['weapon_name'] == 'weapon_bayonet') {
+            $state = $pdo->prepare('UPDATE `wp_player_skins` SET `weapon_defindex`= ?, `weapon_paint_id` = ?, `weapon_wear` = ?, `weapon_seed` = ? WHERE `steamid` = ? AND `weapon_defindex`= ?');
+            $state->execute([$_POST['defindex'], $_POST['paint'], $_POST['wear'], $_POST['seed'],$_SESSION['steamid'], $_POST['defindex']]);
+        }
+
+        switch(GetWeaponType($_POST['weapon_name'])) {
+            case 'knifes':
                 $state = $pdo->prepare('SELECT * FROM `wp_player_knife` WHERE `steamid` = ?');
                 $state->execute([$_SESSION['steamid']]);
-    
+        
                 $player_knife = $state->fetch();
-    
+        
                 if(empty($player_knife)) {
                     $state = $pdo->prepare('INSERT INTO `wp_player_knife`(`steamid`, `knife`) VALUES(?, ?)');
                     $state->execute([$_SESSION['steamid'], $_POST['weapon_name']]);
@@ -167,7 +153,22 @@
                     $state = $pdo->prepare('UPDATE `wp_player_knife` SET `knife` = ? WHERE `steamid` = ?');
                     $state->execute([$_POST['weapon_name'], $_SESSION['steamid']]);
                 }
-            }
+                break;
+                case 'gloves':
+                    $state = $pdo->prepare('SELECT * FROM `wp_player_gloves` WHERE `steamid` = ?');
+                    $state->execute([$_SESSION['steamid']]);
+            
+                    $player_gloves = $state->fetch();
+            
+                    if(empty($player_gloves)) {
+                        $state = $pdo->prepare('INSERT INTO `wp_player_gloves`(`steamid`, `weapon_defindex`) VALUES(?, ?)');
+                        $state->execute([$_SESSION['steamid'], $_POST['defindex']]);
+                    }else {
+                        $state = $pdo->prepare('UPDATE `wp_player_gloves` SET `weapon_defindex` = ? WHERE `steamid` = ?');
+                        $state->execute([$_POST['defindex'], $_SESSION['steamid']]);
+                    }
+
+                break;
         }
         
         header("Refresh:0");
@@ -334,7 +335,6 @@ if(!isset($_POST['weapon'])) {
                             }
 
                             $name = explode('|', $weapon->paint_name)[0];
-                            
                             echo "<li>
                                 <button class='card $knifeSelectedClass' data-action='weapon_picked' data-weapon=".$weapon->weapon_name.">
                                     <svg data-action='fullscreen' viewBox='0 0 32 32'><path d='M28,2h-6c-1.104,0-2,0.896-2,2s0.896,2,2,2h1.2l-4.6,4.601C18.28,10.921,18,11.344,18,12c0,1.094,0.859,2,2,2  c0.641,0,1.049-0.248,1.4-0.6L26,8.8V10c0,1.104,0.896,2,2,2s2-0.896,2-2V4C30,2.896,29.104,2,28,2z M12,18  c-0.641,0-1.049,0.248-1.4,0.6L6,23.2V22c0-1.104-0.896-2-2-2s-2,0.896-2,2v6c0,1.104,0.896,2,2,2h6c1.104,0,2-0.896,2-2  s-0.896-2-2-2H8.8l4.6-4.601C13.72,21.079,14,20.656,14,20C14,18.906,13.141,18,12,18z'/></svg>
@@ -345,9 +345,13 @@ if(!isset($_POST['weapon'])) {
                         }
                     }
 
-                    $state = $pdo->prepare('SELECT * FROM `wp_player_gloves` WHERE `steamid` = ?');
+                    $state = $pdo->prepare('SELECT `weapon_defindex` FROM `wp_player_gloves` WHERE `steamid` = ?');
                     $state->execute([$_SESSION['steamid']]);
-                    $player_equiped = $state->fetch();
+                    
+                    $glovesType = $state->fetch();
+                    if(!empty($glovesType)) {
+                        $glovesType = $glovesType['weapon_defindex'];
+                    }
 
                     $used = [];
                     foreach($gloves as $glove) {
@@ -359,39 +363,39 @@ if(!isset($_POST['weapon'])) {
                         }
 
                         array_push($used, $glove->weapon_defindex);
-
-                        if(empty($player_equiped) && $glove->weapon_defindex == 'gloves_default') {
-                            echo "<li>
-                                <button class='card selected' data-action='weapon_picked' data-weapon=".$glove->weapon_defindex.">
-                                    <svg data-action='fullscreen' viewBox='0 0 32 32'><path d='M28,2h-6c-1.104,0-2,0.896-2,2s0.896,2,2,2h1.2l-4.6,4.601C18.28,10.921,18,11.344,18,12c0,1.094,0.859,2,2,2  c0.641,0,1.049-0.248,1.4-0.6L26,8.8V10c0,1.104,0.896,2,2,2s2-0.896,2-2V4C30,2.896,29.104,2,28,2z M12,18  c-0.641,0-1.049,0.248-1.4,0.6L6,23.2V22c0-1.104-0.896-2-2-2s-2,0.896-2,2v6c0,1.104,0.896,2,2,2h6c1.104,0,2-0.896,2-2  s-0.896-2-2-2H8.8l4.6-4.601C13.72,21.079,14,20.656,14,20C14,18.906,13.141,18,12,18z'/></svg>
-                                    <img src=".$glove->image." loading='lazy'>
-                                    <span>".explode('|', $glove->paint_name)[0]."</span>
-                                </button>
-                            </li>";
-                        }elseif(isset($player_equiped) && !empty($player_equiped) && $player_equiped['weapon_defindex'] == $glove->weapon_defindex) {
-                            foreach($gloves as $glove_selected) {
-                                if($glove_selected->weapon_defindex == $player_equiped['weapon_defindex'] && $glove_selected->paint == $player_equiped['paint']) {
-                                    echo "<li>
-                                        <button class='card selected' data-action='weapon_picked' data-weapon=".$glove_selected->weapon_defindex.">
+                        
+                        $glovesSelectedClass = "";
+                        if($glove->weapon_defindex == 'gloves_default' && empty($glovesType) || !empty($glovesType) && $glove->weapon_defindex == $glovesType) {
+                            $glovesSelectedClass = "selected";
+                        }
+                        
+                        if(isset($player_weapons["$glove->weapon_defindex"])) {
+                            foreach($gloves as $gloveSecond) {
+                                if($gloveSecond->weapon_defindex == $glove->weapon_defindex && $gloveSecond->paint == $player_weapons["$glove->weapon_defindex"]['weapon_paint_id']) {
+                                    $name = explode('|', $gloveSecond->paint_name)[0];
+                                    echo html_entity_decode("<li>
+                                        <button class='card $glovesSelectedClass' data-action='weapon_picked' data-weapon=".$gloveSecond->weapon_defindex.">
                                             <svg data-action='fullscreen' viewBox='0 0 32 32'><path d='M28,2h-6c-1.104,0-2,0.896-2,2s0.896,2,2,2h1.2l-4.6,4.601C18.28,10.921,18,11.344,18,12c0,1.094,0.859,2,2,2  c0.641,0,1.049-0.248,1.4-0.6L26,8.8V10c0,1.104,0.896,2,2,2s2-0.896,2-2V4C30,2.896,29.104,2,28,2z M12,18  c-0.641,0-1.049,0.248-1.4,0.6L6,23.2V22c0-1.104-0.896-2-2-2s-2,0.896-2,2v6c0,1.104,0.896,2,2,2h6c1.104,0,2-0.896,2-2  s-0.896-2-2-2H8.8l4.6-4.601C13.72,21.079,14,20.656,14,20C14,18.906,13.141,18,12,18z'/></svg>
-                                            <img src=".$glove_selected->image." loading='lazy'>
-                                            <span>".explode('|', $glove_selected->paint_name)[0]."</span>
+                                            <img src=".$gloveSecond->image." loading='lazy'>
+                                            <span>".$name."</span>
                                         </button>
-                                    </li>";
+                                    </li>");
                                     break;
                                 }
                             }
                             continue;
-                        }else {
-                            echo "<li>
-                                <button class='card' data-action='weapon_picked' data-weapon=".$glove->weapon_defindex.">
-                                    <svg data-action='fullscreen' viewBox='0 0 32 32'><path d='M28,2h-6c-1.104,0-2,0.896-2,2s0.896,2,2,2h1.2l-4.6,4.601C18.28,10.921,18,11.344,18,12c0,1.094,0.859,2,2,2  c0.641,0,1.049-0.248,1.4-0.6L26,8.8V10c0,1.104,0.896,2,2,2s2-0.896,2-2V4C30,2.896,29.104,2,28,2z M12,18  c-0.641,0-1.049,0.248-1.4,0.6L6,23.2V22c0-1.104-0.896-2-2-2s-2,0.896-2,2v6c0,1.104,0.896,2,2,2h6c1.104,0,2-0.896,2-2  s-0.896-2-2-2H8.8l4.6-4.601C13.72,21.079,14,20.656,14,20C14,18.906,13.141,18,12,18z'/></svg>
-                                    <img src=".$glove->image." loading='lazy'>
-                                    <span>".explode('|', $glove->paint_name)[0]."</span>
-                                </button>
-                            </li>";
                         }
+
+                        $name = explode('|', $glove->paint_name)[0];
+                        echo html_entity_decode("<li>
+                            <button class='card $glovesSelectedClass' data-action='weapon_picked' data-weapon=".$glove->weapon_defindex.">
+                                <svg data-action='fullscreen' viewBox='0 0 32 32'><path d='M28,2h-6c-1.104,0-2,0.896-2,2s0.896,2,2,2h1.2l-4.6,4.601C18.28,10.921,18,11.344,18,12c0,1.094,0.859,2,2,2  c0.641,0,1.049-0.248,1.4-0.6L26,8.8V10c0,1.104,0.896,2,2,2s2-0.896,2-2V4C30,2.896,29.104,2,28,2z M12,18  c-0.641,0-1.049,0.248-1.4,0.6L6,23.2V22c0-1.104-0.896-2-2-2s-2,0.896-2,2v6c0,1.104,0.896,2,2,2h6c1.104,0,2-0.896,2-2  s-0.896-2-2-2H8.8l4.6-4.601C13.72,21.079,14,20.656,14,20C14,18.906,13.141,18,12,18z'/></svg>
+                                <img src=".$glove->image." loading='lazy'>
+                                <span>".$name."</span>
+                            </button>
+                        </li>");
                     }
+
                 ?>
             </ul>
         </div>
@@ -400,7 +404,7 @@ if(!isset($_POST['weapon'])) {
 <?php
 }else {
 
-    if(strpos($_POST['weapon'], 'knife') !== false) {
+    if(GetWeaponType($_POST['weapon']) == 'knifes') {
         $state = $pdo->prepare('SELECT `knife` FROM `wp_player_knife` WHERE `steamid` = ?');
         $state->execute([$_SESSION['steamid']]);
     
@@ -408,6 +412,15 @@ if(!isset($_POST['weapon'])) {
 
         if(!empty($knifeType)) {
             $knifeType = $knifeType['knife'];
+        }
+    }elseif(GetWeaponType($_POST['weapon']) == 'gloves') {
+        $state = $pdo->prepare('SELECT `weapon_defindex` FROM `wp_player_gloves` WHERE `steamid` = ?');
+        $state->execute([$_SESSION['steamid']]);
+    
+        $glovesType = $state->fetch();
+
+        if(!empty($glovesType)) {
+            $glovesType = $glovesType['weapon_defindex'];
         }
     }
 
@@ -424,9 +437,6 @@ if(!isset($_POST['weapon'])) {
                 }
             }
         }
-        
-        $state = $pdo->prepare('SELECT * FROM `wp_player_gloves` WHERE `steamid` = ?');
-        $state->execute([$_SESSION['steamid']]);
     }else {
         foreach($full_skins as $skin) {
             if($skin->weapon_name == $_POST['weapon']) {
@@ -437,10 +447,10 @@ if(!isset($_POST['weapon'])) {
                 }
             }
         }
-
-        $state = $pdo->prepare('SELECT * FROM `wp_player_skins` WHERE `steamid` = ? AND `weapon_defindex` = ?');
-        $state->execute([$_SESSION['steamid'], $weapon_skins[0]->weapon_defindex]);
     }
+
+    $state = $pdo->prepare('SELECT * FROM `wp_player_skins` WHERE `steamid` = ? AND `weapon_defindex` = ?');
+    $state->execute([$_SESSION['steamid'], $weapon_skins[0]->weapon_defindex]);
 
     $player_skin = $state->fetch();
 
@@ -448,19 +458,10 @@ if(!isset($_POST['weapon'])) {
     $weapon_seed = 0;
 
     if(!empty($player_skin)) {
-        if(GetWeaponType($_POST['weapon']) == 'gloves') {
-            foreach($weapon_skins as $weapon) {
-                if($player_skin['weapon_defindex'] == $weapon->weapon_defindex && $player_skin['paint'] == $weapon->paint) {
-                    $currentWeapon = $weapon;
-                    break;
-                }
-            }
-        }else {
-            foreach($weapon_skins as $weapon) {
-                if($player_skin['weapon_defindex'] == $weapon->weapon_defindex && $player_skin['weapon_paint_id'] == $weapon->paint) {
-                    $currentWeapon = $weapon;
-                    break;
-                }
+        foreach($weapon_skins as $weapon) {
+            if($player_skin['weapon_defindex'] == $weapon->weapon_defindex && $player_skin['weapon_paint_id'] == $weapon->paint) {
+                $currentWeapon = $weapon;
+                break;
             }
         }
 
@@ -493,7 +494,7 @@ if(!isset($_POST['weapon'])) {
                 <p><?= $translations->skins->selected_weapon->weapon_selected_label; ?><br><strong><?= explode('|', $currentWeapon->paint_name)[0]; ?></strong></p>
                 <button class="main-btn" data-action="weapon_choose"><?= $translations->skins->selected_weapon->choose_weapon_button; ?></button>
             </div>
-            <div class="settings" <?php if($_POST['weapon'] == 'weapon_knife_default' || GetWeaponType($_POST['weapon']) == 'gloves') { ?>style="display: none;"<?php } ?>>
+            <div class="settings" <?php if($_POST['weapon'] == 'weapon_knife_default' || $_POST['weapon'] == 'gloves_default') { ?>style="display: none;"<?php } ?>>
                 <div>
                     <label for="wear"><?= $translations->skins->selected_weapon->wear->label; ?></label>
                     <select name="wear" id="wear">
@@ -515,44 +516,36 @@ if(!isset($_POST['weapon'])) {
             <ul>
                 <?php
                 foreach($weapon_skins as $weapon) {
-                    if(GetWeaponType($_POST['weapon']) == 'gloves') {
-                        if(empty($player_skin) && $weapon->weapon_defindex == 'gloves_default' || !empty($player_skin) && $weapon->paint == $player_skin['paint']) {
-                            echo "<li>
-                                <button class='card selected' data-action='weapon_change' data-weapon='$weapon->weapon_defindex' data-defindex='$weapon->weapon_defindex' data-paint='$weapon->paint'>
-                                    <svg data-action='fullscreen' viewBox='0 0 32 32'><path d='M28,2h-6c-1.104,0-2,0.896-2,2s0.896,2,2,2h1.2l-4.6,4.601C18.28,10.921,18,11.344,18,12c0,1.094,0.859,2,2,2  c0.641,0,1.049-0.248,1.4-0.6L26,8.8V10c0,1.104,0.896,2,2,2s2-0.896,2-2V4C30,2.896,29.104,2,28,2z M12,18  c-0.641,0-1.049,0.248-1.4,0.6L6,23.2V22c0-1.104-0.896-2-2-2s-2,0.896-2,2v6c0,1.104,0.896,2,2,2h6c1.104,0,2-0.896,2-2  s-0.896-2-2-2H8.8l4.6-4.601C13.72,21.079,14,20.656,14,20C14,18.906,13.141,18,12,18z'/></svg>
-                                    <img src='$weapon->image' alt='$weapon->paint_name' loading='lazy'>
-                                    <span>".explode('|', $weapon->paint_name)[1]."</span>
-                                </button>
-                            </li>";
+                    if(GetWeaponType($_POST['weapon']) != 'gloves' && GetWeaponType($weapon->weapon_name) != 'knifes' && !empty($player_skin) && $weapon->paint == $player_skin['weapon_paint_id'] ||
+                    GetWeaponType($_POST['weapon']) != 'gloves' && $weapon->weapon_name == 'weapon_knife_default' && empty($knifeType) ||
+                    GetWeaponType($_POST['weapon']) != 'gloves' && GetWeaponType($weapon->weapon_name) == 'knifes' && isset($knifeType) && $weapon->weapon_name == $knifeType && $weapon->paint == $player_skin['weapon_paint_id'] ||
+                    GetWeaponType($_POST['weapon']) == 'gloves' && $weapon->weapon_defindex == 'gloves_default' && empty($glovesType) ||
+                    GetWeaponType($_POST['weapon']) == 'gloves' && isset($glovesType) && $weapon->weapon_defindex == $glovesType && $weapon->paint == $player_skin['weapon_paint_id']) {
+                        if(GetWeaponType($_POST['weapon']) == 'gloves') {
+                            $dataWeapon = $weapon->weapon_defindex;
                         }else {
-                            echo "<li>
-                                <button class='card' data-action='weapon_change' data-weapon='$weapon->weapon_defindex' data-defindex='$weapon->weapon_defindex' data-paint='$weapon->paint'>
-                                    <svg data-action='fullscreen' viewBox='0 0 32 32'><path d='M28,2h-6c-1.104,0-2,0.896-2,2s0.896,2,2,2h1.2l-4.6,4.601C18.28,10.921,18,11.344,18,12c0,1.094,0.859,2,2,2  c0.641,0,1.049-0.248,1.4-0.6L26,8.8V10c0,1.104,0.896,2,2,2s2-0.896,2-2V4C30,2.896,29.104,2,28,2z M12,18  c-0.641,0-1.049,0.248-1.4,0.6L6,23.2V22c0-1.104-0.896-2-2-2s-2,0.896-2,2v6c0,1.104,0.896,2,2,2h6c1.104,0,2-0.896,2-2  s-0.896-2-2-2H8.8l4.6-4.601C13.72,21.079,14,20.656,14,20C14,18.906,13.141,18,12,18z'/></svg>
-                                    <img src='$weapon->image' alt='$weapon->paint_name' loading='lazy'>
-                                    <span>".explode('|', $weapon->paint_name)[1]."</span>
-                                </button>
-                            </li>";
+                            $dataWeapon = $weapon->weapon_name;
                         }
+                        echo "<li data-text='".$translations->skins->selected_weapon->already_equiped_message."'>
+                            <button class='card selected' data-action='weapon_change' data-weapon='$dataWeapon' data-defindex='$weapon->weapon_defindex' data-paint='$weapon->paint'>
+                                <svg data-action='fullscreen' viewBox='0 0 32 32'><path d='M28,2h-6c-1.104,0-2,0.896-2,2s0.896,2,2,2h1.2l-4.6,4.601C18.28,10.921,18,11.344,18,12c0,1.094,0.859,2,2,2  c0.641,0,1.049-0.248,1.4-0.6L26,8.8V10c0,1.104,0.896,2,2,2s2-0.896,2-2V4C30,2.896,29.104,2,28,2z M12,18  c-0.641,0-1.049,0.248-1.4,0.6L6,23.2V22c0-1.104-0.896-2-2-2s-2,0.896-2,2v6c0,1.104,0.896,2,2,2h6c1.104,0,2-0.896,2-2  s-0.896-2-2-2H8.8l4.6-4.601C13.72,21.079,14,20.656,14,20C14,18.906,13.141,18,12,18z'/></svg>
+                                <img src='$weapon->image' alt='$dataWeapon' loading='lazy'>
+                                <span>".explode('|', $weapon->paint_name)[1]."</span>
+                            </button>
+                        </li>";
                     }else {
-                        if(GetWeaponType($weapon->weapon_name) != 'knifes' && !empty($player_skin) && $weapon->paint == $player_skin['weapon_paint_id'] ||
-                        $weapon->weapon_name == 'weapon_knife_default' && empty($knifeType) ||
-                        GetWeaponType($weapon->weapon_name) == 'knifes' && isset($knifeType) && $weapon->weapon_name == $knifeType && $weapon->paint == $player_skin['weapon_paint_id']) {
-                            echo "<li data-text='".$translations->skins->selected_weapon->already_equiped_message."'>
-                                <button class='card selected' data-action='weapon_change' data-weapon='$weapon->weapon_name' data-defindex='$weapon->weapon_defindex' data-paint='$weapon->paint'>
-                                    <svg data-action='fullscreen' viewBox='0 0 32 32'><path d='M28,2h-6c-1.104,0-2,0.896-2,2s0.896,2,2,2h1.2l-4.6,4.601C18.28,10.921,18,11.344,18,12c0,1.094,0.859,2,2,2  c0.641,0,1.049-0.248,1.4-0.6L26,8.8V10c0,1.104,0.896,2,2,2s2-0.896,2-2V4C30,2.896,29.104,2,28,2z M12,18  c-0.641,0-1.049,0.248-1.4,0.6L6,23.2V22c0-1.104-0.896-2-2-2s-2,0.896-2,2v6c0,1.104,0.896,2,2,2h6c1.104,0,2-0.896,2-2  s-0.896-2-2-2H8.8l4.6-4.601C13.72,21.079,14,20.656,14,20C14,18.906,13.141,18,12,18z'/></svg>
-                                    <img src='$weapon->image' alt='$weapon->weapon_name' loading='lazy'>
-                                    <span>".explode('|', $weapon->paint_name)[1]."</span>
-                                </button>
-                            </li>";
+                        if(GetWeaponType($_POST['weapon']) == 'gloves') {
+                            $dataWeapon = $weapon->weapon_defindex;
                         }else {
-                            echo "<li>
-                                <button class='card' data-action='weapon_change' data-weapon='$weapon->weapon_name' data-defindex='$weapon->weapon_defindex' data-paint='$weapon->paint'>
-                                    <svg data-action='fullscreen' viewBox='0 0 32 32'><path d='M28,2h-6c-1.104,0-2,0.896-2,2s0.896,2,2,2h1.2l-4.6,4.601C18.28,10.921,18,11.344,18,12c0,1.094,0.859,2,2,2  c0.641,0,1.049-0.248,1.4-0.6L26,8.8V10c0,1.104,0.896,2,2,2s2-0.896,2-2V4C30,2.896,29.104,2,28,2z M12,18  c-0.641,0-1.049,0.248-1.4,0.6L6,23.2V22c0-1.104-0.896-2-2-2s-2,0.896-2,2v6c0,1.104,0.896,2,2,2h6c1.104,0,2-0.896,2-2  s-0.896-2-2-2H8.8l4.6-4.601C13.72,21.079,14,20.656,14,20C14,18.906,13.141,18,12,18z'/></svg>
-                                    <img src='$weapon->image' alt='$weapon->weapon_name' loading='lazy'>
-                                    <span>".explode('|', $weapon->paint_name)[1]."</span>
-                                </button>
-                            </li>";
+                            $dataWeapon = $weapon->weapon_name;
                         }
+                        echo "<li>
+                            <button class='card' data-action='weapon_change' data-weapon='$dataWeapon' data-defindex='$weapon->weapon_defindex' data-paint='$weapon->paint'>
+                                <svg data-action='fullscreen' viewBox='0 0 32 32'><path d='M28,2h-6c-1.104,0-2,0.896-2,2s0.896,2,2,2h1.2l-4.6,4.601C18.28,10.921,18,11.344,18,12c0,1.094,0.859,2,2,2  c0.641,0,1.049-0.248,1.4-0.6L26,8.8V10c0,1.104,0.896,2,2,2s2-0.896,2-2V4C30,2.896,29.104,2,28,2z M12,18  c-0.641,0-1.049,0.248-1.4,0.6L6,23.2V22c0-1.104-0.896-2-2-2s-2,0.896-2,2v6c0,1.104,0.896,2,2,2h6c1.104,0,2-0.896,2-2  s-0.896-2-2-2H8.8l4.6-4.601C13.72,21.079,14,20.656,14,20C14,18.906,13.141,18,12,18z'/></svg>
+                                <img src='$weapon->image' alt='$dataWeapon' loading='lazy'>
+                                <span>".explode('|', $weapon->paint_name)[1]."</span>
+                            </button>
+                        </li>";
                     }
                 }
                 ?>

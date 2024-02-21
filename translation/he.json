@@ -31,7 +31,7 @@
         },
         "selected_weapon": {
             "weapon_selected_label": "הנשק שנבחר",
-            "choose_weapon_button": "בחר נשק",
+            "choose_weapon_button": "בחר נשק אחר",
             "wear": {
                 "label": "בלאי הנשק",
                 "factory_new": "חדש מהמפעל",
