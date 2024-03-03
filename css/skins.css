@@ -29,6 +29,7 @@ footer .wrapper {
     justify-content: space-between;
     align-items: center;
     height: 100px;
+    overflow: visible;
 }
 
 footer .info {
@@ -54,8 +55,137 @@ footer .info img {
     border-radius: 10px;
 }
 
-footer a svg {
+footer .actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+footer .actions a svg {
     color: white;
+}
+footer .settings {
+    display: none;
+    place-items: center;
+    background: none;
+    border: none;
+    outline: none;
+    width: 25px;
+    height: 25px;
+    fill: white;
+}
+footer .settings:has(button) {
+    display: grid;
+}
+footer .settings svg {
+    cursor: pointer;
+    transition: .3s;
+}
+footer .settings svg path {
+    pointer-events: none;
+}
+footer .settings svg[data-action="toggle_menu"]:hover,
+footer .settings svg[data-action="toggle_menu"]:focus-visible {
+    transform: rotate(25deg);
+}
+footer .settings .items {
+    position: absolute;
+    bottom: 110%;
+    border-radius: 10px;
+    background: white;
+    opacity: 0;
+    pointer-events: none;
+    transition: .3s;
+}
+footer .settings[data-open] .items {
+    opacity: 1;
+    pointer-events: all;
+    bottom: 120%;
+}
+footer .settings ul {
+    display: flex;
+    flex-direction: column;
+    width: 230px;
+    max-height: 300px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    user-select: none;
+    direction: ltr;
+}
+footer .settings .items::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background: inherit;
+}
+footer .settings button {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: none;
+    border: none;
+    fill: #999;
+    color: #999;
+    margin: 0 10px;
+    padding: 15px 0;
+    font-size: 18px;
+    cursor: pointer;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    transition: .3s;
+    white-space: nowrap;
+}
+footer .settings button:first-child {
+    border-top: none;
+}
+footer .settings button * {
+    pointer-events: none;
+}
+footer .settings button:hover,
+footer .settings button:focus-visible {
+    fill: var(--main-color);
+    color: var(--main-color);
+}
+footer .settings button div {
+    position: relative;
+    width: 75%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: none;
+}
+footer .settings button svg {
+    width: 20px;
+    height: 20px;
+    transition: none;
+}
+footer .settings input[type="radio"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    outline: 1px solid var(--main-color);
+    outline-offset: 2px;
+    border-radius: 100%;
+
+}
+footer .settings input[type="radio"]:checked {
+    background: var(--main-color);
+}
+footer .settings input[type="color"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 25px;
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 100%;
 }
 
 .categories {
@@ -129,7 +259,7 @@ footer a svg {
     content: '';
     position: absolute;
     width: 10px;
-    aspect-ratio: 1/1;
+    height: 10px;
     bottom: 100%;
     left: 50%;
     transform: translate(-50%, 50%) rotate(45deg);

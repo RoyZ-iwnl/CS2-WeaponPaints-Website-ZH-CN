@@ -11,14 +11,16 @@
     },
     "login": {
         "header": "שרת קונטר סטרייק 2 - היכנסו עכשיו",
-        "title": "CS2.LIELXD.COM",
-        "title_link": "steam://connect/34.165.48.66:27015?appid=730",
-        "title_hover": "היכנסו לשרת",
+        "titles": [
+            {"name": "CS2.LIELXD.COM", "hover": "היכנסו לשרת הריטייק", "link": "steam://connect/34.165.48.66:27015?appid=730"},
+            {"name": "CS2.LIELXD.COM", "hover": "היכנסו לשרת הסארף", "link": "steam://connect/34.165.48.66:27016?appid=730"}
+        ],
         "footer": "בבקשה התחברו דרך Steam בכדי להמשיך.",
         "button": "התחברות עם Steam"
     },
     "skins": {
-        "choose_weapon": "בחר נשק",
+        "choose_weapon": "בחר {{label}}",
+        "choose_weapon_default": "סקין",
         "categories": {
             "knifes": "סכינים",
             "pistols": "אקדחים",
@@ -46,7 +48,15 @@
         },
         "footer": {
             "signedin": "מחובר בתור<br>{{name}}.",
-            "sign_out": "התנתקות"
+            "sign_out": "התנתקות",
+            "settings": {
+                "language": "שפה",
+                "theme": {
+                    "label": "עיצוב",
+                    "custom": "שינוי צבע",
+                    "choose": "בחר צבע"
+                }
+            }
         }
     }
 }

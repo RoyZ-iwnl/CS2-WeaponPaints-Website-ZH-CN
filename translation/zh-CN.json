@@ -11,14 +11,15 @@
     },
     "login": {
         "header": "[DMR]CS2回防服务器-现在加入！",
-        "title": "CS1.DMR.GG",
-        "title_link": "steam://connect/124.220.56.120?appid=730",
-        "title_hover": "加入游戏",
+        "titles": [
+            {"name": "CS1.DMR.GG", "hover": "加入游戏", "link": "steam://connect/124.220.56.120?appid=730"}
+        ],
         "footer": "请先登录你的Steam账户！",
         "button": "通过Steam登录"
     },
     "skins": {
-        "choose_weapon": "选择你的武器",
+        "choose_weapon": "选择你的 {{label}}",
+        "choose_weapon_default": "皮肤",
         "categories": {
             "knifes": "刀具",
             "pistols": "手枪",
@@ -46,7 +47,15 @@
         },
         "footer": {
             "signedin": "当前登录账户：<br>{{name}}",
-            "sign_out": "登出"
+            "sign_out": "登出",
+            "settings": {
+                "language": "语言",
+                "theme": {
+                    "label": "主题",
+                    "custom": "定制颜色",
+                    "choose": "选择颜色"
+                }
+            }
         }
     }
 }

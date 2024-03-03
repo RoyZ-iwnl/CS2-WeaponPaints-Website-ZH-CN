@@ -11,14 +11,16 @@
     },
     "login": {
         "header": "Counter Strike 2 Server - Entra agora:",
-        "title": "CS2.LIELXD.COM",
-        "title_link": "steam://connect/34.165.48.66:27015?appid=730",
-        "title_hover": "Entrar no servidor",
+        "titles": [
+            {"name": "CS2.LIELXD.COM", "hover": "Entrar no servidor retake", "link": "steam://connect/34.165.48.66:27015?appid=730"},
+            {"name": "CS2.LIELXD.COM", "hover": "Entrar no servidor surf", "link": "steam://connect/34.165.48.66:27016?appid=730"}
+        ],
         "footer": "Por favor, autentique-se com a Steam para continuar.",
         "button": "Login com Steam"
     },
     "skins": {
-        "choose_weapon": "Escolhe a tua arma",
+        "choose_weapon": "Escolhe a tua {{label}}",
+        "choose_weapon_default": "arma",
         "categories": {
             "knifes": "Facas",
             "pistols": "Pistolas",
@@ -46,7 +48,15 @@
         },
         "footer": {
             "signedin": "Autenticado como <br>{{name}}.",
-            "sign_out": "Terminar sessão"
+            "sign_out": "Terminar sessão",
+            "settings": {
+                "language": "linguagem",
+                "theme": {
+                    "label": "Tema",
+                    "custom": "Cor customizada",
+                    "choose": "Escolha a cor"
+                }
+            }
         }
     }
 }
