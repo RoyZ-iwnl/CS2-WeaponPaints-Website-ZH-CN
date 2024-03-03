@@ -10,12 +10,11 @@
         "button": "Вернуться на веб-сайт"
     },
     "login": {
-        "header": "Counter Strike 2 Server - Подключайтесь сейчас:",
+        "header": "Сервер Counter Strike 2 Retakes - Подключитесь сейчас:",
         "titles": [
-            {"name": "CS2.LIELXD.COM", "hover": "Подключитесь к серверу retake", "link": "steam://connect/34.165.48.66:27015?appid=730"},
-            {"name": "CS2.LIELXD.COM", "hover": "Подключитесь к серверу surf", "link": "steam://connect/34.165.48.66:27016?appid=730"}
+            {"name": "CS1.DMR.GG", "hover": "Подключиться к серверу Retakes", "link": "steam://connect/124.220.56.120?appid=730"}
         ],
-        "footer": "пожалуйста, войдите в систему через steam, чтобы продолжить.",
+        "footer": "пожалуйста, войдите через Steam, чтобы продолжить.",
         "button": "Войти через Steam"
     },
     "skins": {

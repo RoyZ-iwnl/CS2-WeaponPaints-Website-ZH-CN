@@ -10,13 +10,12 @@
         "button": "Voltar ao site"
     },
     "login": {
-        "header": "Counter Strike 2 Server - Conecte-se agora:",
+        "header": "Servidor Counter Strike 2 Retakes - Conecte agora:",
         "titles": [
-            {"name": "CS2.LIELXD.COM", "hover": "Conecte-se ao servidor retake", "link": "steam://connect/34.165.48.66:27015?appid=730"},
-            {"name": "CS2.LIELXD.COM", "hover": "Conecte-se ao servidor surf", "link": "steam://connect/34.165.48.66:27016?appid=730"}
+            {"name": "CS1.DMR.GG", "hover": "Conectar ao servidor Retakes", "link": "steam://connect/124.220.56.120?appid=730"}
         ],
-        "footer": "faça login através da Steam para continuar.",
-        "button": "Entrar com a Steam"
+        "footer": "por favor, faça login pelo Steam para continuar.",
+        "button": "Fazer login com o Steam"
     },
     "skins": {
         "choose_weapon": "Escolha sua {{label}}",

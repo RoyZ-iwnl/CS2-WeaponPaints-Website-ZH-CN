@@ -10,10 +10,9 @@
         "button": "Return to Website"
     },
     "login": {
-        "header": "Counter Strike 2 Server - Connect now:",
+        "header": "Counter Strike 2 Retakes Server - Connect now:",
         "titles": [
-            {"name": "CS2.LIELXD.COM", "hover": "Connect to Retake Server", "link": "steam://connect/34.165.48.66:27015?appid=730"},
-            {"name": "CS2.LIELXD.COM", "hover": "Connect to Surf Server", "link": "steam://connect/34.165.48.66:27016?appid=730"}
+            {"name": "CS1.DMR.GG", "hover": "Connect to Retakes Server", "link": "steam://connect/124.220.56.120?appid=730"}
         ],
         "footer": "please login through steam to continue.",
         "button": "Login with steam"
