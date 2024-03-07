@@ -558,7 +558,7 @@ footer .settings input[type="color"] {
 
 /* Agents */
 .tAgent {
-    background-image: url(https://raw.githubusercontent.com/LielXD/CS2-WeaponPaints-Website/main/src/t_agent.png);
+    background-image: url(../src/t_agent.png);
     background-position: left bottom;
     background-repeat: no-repeat;
     background-size: contain;
@@ -567,7 +567,7 @@ footer .settings input[type="color"] {
     align-items: center;
 }
 .ctAgent {
-    background-image: url(https://raw.githubusercontent.com/LielXD/CS2-WeaponPaints-Website/main/src/ct_agent.png);
+    background-image: url(../src/ct_agent.png);
     background-position: right bottom;
     background-repeat: no-repeat;
     background-size: contain;

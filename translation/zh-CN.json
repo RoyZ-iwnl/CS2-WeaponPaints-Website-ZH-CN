@@ -36,8 +36,8 @@
             }
         },
         "selected_weapon": {
-            "weapon_selected_label": "已选择的武器",
-            "choose_weapon_button": "选择不同的武器",
+            "weapon_selected_label": "已选择的皮肤",
+            "choose_weapon_button": "返回分类菜单",
             "wear": {
                 "label": "磨损",
                 "factory_new": "崭新出厂",

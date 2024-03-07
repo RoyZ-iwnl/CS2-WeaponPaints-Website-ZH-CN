@@ -2,12 +2,12 @@
 	{
 		"team": 2,
 		"image": "",
-		"model": "null",
+		"model": "../src/t_agent_default.png",
 		"agent_name": "当地 T 探员"
 	},
 	{
 		"team": 3,
-		"image": "",
+		"image": "../src/ct_agent_default2.png",
 		"model": "null",
 		"agent_name": "当地反恐探员"
 	},
