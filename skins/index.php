@@ -267,7 +267,7 @@
     <link rel="stylesheet" href="../css/main.css" type="text/css">
     <link rel="stylesheet" href="../css/skins.css" type="text/css">
     <script src="script.js" defer></script>
-    <title><?= $translations->website_name; ?> - Skins</title>
+    <title><?= $translations->website_name; ?> - 皮肤配置</title>
 </head>
 <body <?= $bodyStyle ?>>
 
