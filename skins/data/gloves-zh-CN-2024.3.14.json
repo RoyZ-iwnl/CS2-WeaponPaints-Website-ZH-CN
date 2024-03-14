@@ -1,5 +1,11 @@
 [
     {
+		"weapon_defindex": "gloves_default",
+		"paint": "0",
+		"image": "../src/gloves/default.png",
+		"paint_name": "默认手套"
+	},
+    {
         "weapon_defindex": 4725,
         "paint": "10085",
         "image": "img/skins/studded_brokenfang_gloves-10085.png",
