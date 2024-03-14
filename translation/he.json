@@ -33,7 +33,8 @@
                 "label": "דמויות",
                 "ct": "צבא",
                 "t": "טרוריסטים"
-            }
+            },
+            "mvp": "ערכות מוזיקה"
         },
         "selected_weapon": {
             "weapon_selected_label": "הנשק שנבחר",

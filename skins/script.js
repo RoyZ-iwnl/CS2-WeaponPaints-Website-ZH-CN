@@ -70,6 +70,13 @@ document.addEventListener('click', function (e) {
                 ['agentModel', agentModel]
             ]);
             break;
+        case 'mvp_change':
+            let mvpId = e.target.getAttribute('data-id');
+
+            SendFormPost([
+                ['mvpId', mvpId]
+            ]);
+            break;
         case 'fullscreen':
             let srcImg = e.target.parentElement.querySelector('img').src;
             ToggleModal(srcImg);

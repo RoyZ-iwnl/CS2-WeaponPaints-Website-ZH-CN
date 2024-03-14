@@ -33,7 +33,8 @@
                 "label": "Agents",
                 "ct": "Counter Terrorist",
                 "t": "Terrorist"
-            }
+            },
+            "mvp": "Music Kits"
         },
         "selected_weapon": {
             "weapon_selected_label": "Selected weapon",
