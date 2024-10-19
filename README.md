@@ -2,6 +2,8 @@
 Website i've made for my cs2 server for the plugin cs2-weaponpaints and wanted to share this with the community,<br>
 please share with me your thoughts.
 
+** To fix error of drivers please enable pdo_mysql **
+
 Demo website:<br>
 https://cs2.lielxd.com/
 
@@ -18,7 +20,7 @@ for any bugs post an issue here at the github page and I will try to help you as
 *******
 It's totally free and credit would be appreciated. :)
 *******
-* v1.2.5
+* v1.2.5 and above
   * supports all PHP versions!
 
 * all versions before v1.2.5
